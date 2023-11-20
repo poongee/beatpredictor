@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tempo Result</title>
+</head>
+<body>
+    <h1>Tempo Result</h1>
+    <p id="tempo">Tempo: BPM</p>
+
+    <script>
+        function updateTempo() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var tempoValue = JSON.parse(xhr.responseText).tempo;
+                    document.getElementById('tempo').innerHTML = 'Tempo: ' + tempoValue + ' BPM';
+                }
+            };
+            xhr.open('GET', '/get_tempo', true);
+            xhr.send();
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTempo();
+            setInterval(updateTempo, 1000);
+        });
+    </script>
+</body>
+</html>
